@@ -14,14 +14,15 @@ var similarAdvertLabelTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 
-var createAvatarNumber = function () {
-  while (true) {
+var createAvatarNumber = function (arr) {
+  while (arr.length < 8) {
     var result = Math.floor(1 + Math.random() * 8);
-    if (avatarNumbers.indexOf(result) === -1) {
-      avatarNumbers.push(result);
+    if (arr.indexOf(result) === -1) {
+      arr.push(result);
       return '0' + result;
     }
   }
+  return null;
 };
 
 var getRandomX = function (max) {
@@ -58,7 +59,7 @@ var creationArrayAdverts = function () {
     var positionY = getRandomY(130, 630);
     arr.push({
       'author': {
-        'avatar': 'img/avatars/user' + createAvatarNumber() + '.png'
+        'avatar': 'img/avatars/user' + createAvatarNumber(avatarNumbers) + '.png'
       },
       'offer': {
         'title': 'Уютное гнездышко для всех',
