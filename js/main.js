@@ -8,9 +8,7 @@ var adFormSubmit = adForm.querySelector('.ad-form__submit');
 var inputsForm = adForm.querySelectorAll('input');
 var selectsForm = adForm.querySelectorAll('select');
 var roomNumber = adForm.querySelector('#room_number');
-var roomNumbers = roomNumber.querySelectorAll('option');
 var capacity = adForm.querySelector('#capacity');
-var numberGuests = adForm.querySelectorAll('#capacity > option');
 var typeBuilding = adForm.querySelector('#type');
 var typesBuilding = adForm.querySelectorAll('#type > option');
 var price = adForm.querySelector('#price');
@@ -281,6 +279,6 @@ pinMain.addEventListener('mousedown', function (evt) {
 });
 
 adFormSubmit.addEventListener('click', validatesFormRooms);
-//mapPins.appendChild(fragmentLabelAdverts);
-//map.insertBefore(fragmentAdverts, filters);
 
+// mapPins.appendChild(fragmentLabelAdverts);
+// map.insertBefore(fragmentAdverts, filters);
