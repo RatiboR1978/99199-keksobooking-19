@@ -3,6 +3,8 @@
 var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var avatarNumbers = [];
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
 var adForm = document.querySelector('.ad-form');
 var adFormSubmit = adForm.querySelector('.ad-form__submit');
 var inputsForm = adForm.querySelectorAll('input');
@@ -12,15 +14,16 @@ var capacity = adForm.querySelector('#capacity');
 var typeBuilding = adForm.querySelector('#type');
 var typesBuilding = adForm.querySelectorAll('#type > option');
 var price = adForm.querySelector('#price');
-var filters = document.querySelector('.map__filters');
-var priseArr = [0, 1000, 5000, 10000];
+var filtersContainer = map.querySelector('.map__filters-container');
+var filters = filtersContainer.querySelector('.map__filters');
+var PRISE_ARR = [0, 1000, 5000, 10000];
 var pinMain = mapPins.querySelector('.map__pin--main');
 var inputAddress = adForm.querySelector('#address');
 var PIN_MAIN_X = parseInt(pinMain.style.left, 10) + 62 / 2;
 var PIN_MAIN_Y = parseInt(pinMain.style.top, 10) + 62 + 22;
-var checkinTimes = ['12:00', '13:00', '14:00'];
-var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var CHECKIN_TIMES = ['12:00', '13:00', '14:00'];
+var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var similarAdvertTemplate = document.querySelector('#card')
   .content
   .querySelector('.map__card');
@@ -83,6 +86,7 @@ var getRandomArr = function (arr) {
   return result;
 };
 
+// Функция создания массива объявлений
 var creationArrayAdverts = function () {
   var arr = [];
   for (var i = 0; i < 8; i++) {
@@ -90,7 +94,7 @@ var creationArrayAdverts = function () {
       var j = getRandom(arrTypes);
       return arrTypes[j].name;
     };
-    var indexCheckinTimes = getRandom(checkinTimes);
+    var indexCheckinTimes = getRandom(CHECKIN_TIMES);
     var positionX = getRandomX(1200);
     var positionY = getRandomY(130, 630);
     arr.push({
@@ -104,11 +108,11 @@ var creationArrayAdverts = function () {
         'type': createType(typePremises),
         'rooms': 3,
         'guests': 2,
-        'checkin': checkinTimes[indexCheckinTimes],
-        'checkout': checkinTimes[indexCheckinTimes],
-        'features': getRandomArr(features),
+        'checkin': CHECKIN_TIMES[indexCheckinTimes],
+        'checkout': CHECKIN_TIMES[indexCheckinTimes],
+        'features': getRandomArr(FEATURES),
         'description': 'Великолепная квартира-студия в центре Токио. Подходит как туристам, так и бизнесменам. Квартира полностью укомплектована и недавно отремонтирована.',
-        'photos': getRandomArr(photos)
+        'photos': getRandomArr(PHOTOS)
       },
       'location': {
         'x': positionX,
@@ -120,6 +124,7 @@ var creationArrayAdverts = function () {
   return arr;
 };
 
+// Функция создания объявления
 var renderAdvert = function (advert) {
   var advertElement = similarAdvertTemplate.cloneNode(true);
   var avatarAdvert = advertElement.querySelector('.popup__avatar');
@@ -202,9 +207,12 @@ var renderAdvert = function (advert) {
       photosAdvert.appendChild(newPhoto);
     }
   }
+
+  advertElement.classList.add('hidden');
   return advertElement;
 };
 
+// Функция создания метки
 var renderAdvertLabel = function (adverts) {
   var labeltElement = similarAdvertLabelTemplate.cloneNode(true);
   labeltElement.style = 'left: ' + (adverts.location.x - 25) + 'px; top: ' + (adverts.location.y - 70) + 'px;';
@@ -223,6 +231,7 @@ var behaviorElemForm = function (arr, bool) {
   }
 };
 
+// Функция активации карты
 var onActivationMap = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
@@ -231,15 +240,17 @@ var onActivationMap = function () {
   behaviorElemForm(selectsForm, false);
 };
 
+// Функция выбора цены
 var selectionPrise = function () {
   typesBuilding.forEach(function (item, i) {
     if (item.selected) {
-      price.min = priseArr[i];
-      price.placeholder = '' + priseArr[i];
+      price.min = PRISE_ARR[i];
+      price.placeholder = '' + PRISE_ARR[i];
     }
   });
 };
 
+// Функция валидации количества комнат
 var validatesFormRooms = function () {
   var rooms = Number(roomNumber.value);
   var guests = Number(capacity.value);
@@ -256,10 +267,65 @@ var validatesFormRooms = function () {
   }
 };
 
-fragmentAdverts.appendChild(renderAdvert(adverts[0]));
+// Функция добавления класса
+var addClass = function (collection, className) {
+  for (var i = 0; i < collection.length; i++) {
+    collection[i].classList.add(className);
+  }
+};
+
+// Функция открытия объявления
+var openAdvert = function (collection, classCollection) {
+  collection.forEach(function (item, j) {
+    if (!item.classList.contains('map__pin--main')) {
+      item.addEventListener('click', function () {
+        var cards = map.querySelectorAll(classCollection);
+        addClass(cards, 'hidden');
+        cards[j - 1].classList.remove('hidden');
+      });
+    }
+  });
+};
+
+// Функция закрытия объявления
+var closeAdvert = function (collAdvert) {
+  document.addEventListener('keydown', function (evt) {
+    var key = evt.key;
+    if (key === 'Escape') {
+      collAdvert.forEach(function (item) {
+        item.classList.add('hidden');
+      });
+    }
+  });
+  collAdvert.forEach(function (item, i) {
+    var closeBtn = item.querySelector('.popup__close');
+    closeBtn.addEventListener('click', function () {
+      collAdvert[i].classList.add('hidden');
+    });
+  });
+};
+
+// Функция валидации формы
+var validatesForm = function () {
+  validatesFormRooms();
+};
+
+// Функция для времени заезда и выезда
+var setTime = function (elem1, elem2) {
+  elem2.value = elem1.value;
+};
+
+timeIn.addEventListener('change', function () {
+  setTime(timeIn, timeOut);
+});
+
+timeOut.addEventListener('change', function () {
+  setTime(timeOut, timeIn);
+});
 
 for (var i = 0; i < adverts.length; i++) {
   fragmentLabelAdverts.appendChild(renderAdvertLabel(adverts[i]));
+  fragmentAdverts.appendChild(renderAdvert(adverts[i]));
 }
 
 inputAddress.value = PIN_MAIN_X + ', ' + PIN_MAIN_Y;
@@ -276,9 +342,13 @@ pinMain.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     onActivationMap();
   }
+  mapPins.appendChild(fragmentLabelAdverts);
+  filtersContainer.before(fragmentAdverts);
+  var pins = mapPins.querySelectorAll('.map__pin');
+  var cards = map.querySelectorAll('.map__card');
+
+  openAdvert(pins, '.map__card');
+  closeAdvert(cards);
 });
 
-adFormSubmit.addEventListener('click', validatesFormRooms);
-
-// mapPins.appendChild(fragmentLabelAdverts);
-// map.insertBefore(fragmentAdverts, filters);
+adFormSubmit.addEventListener('click', validatesForm);
