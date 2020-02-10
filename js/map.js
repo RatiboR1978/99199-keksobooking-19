@@ -19,7 +19,6 @@
   var PIN_MAIN_X = parseInt(pinMain.style.left, 10) + 62 / 2;
   var PIN_MAIN_Y = parseInt(pinMain.style.top, 10) + 62 + 22;
   var typeBuilding = adForm.querySelector('#type');
-  var adFormSubmit = adForm.querySelector('.ad-form__submit');
 
   // функция активации элементов формы
   var behaviorElemForm = function (arr, bool) {
