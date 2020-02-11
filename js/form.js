@@ -40,12 +40,14 @@
       item.disabled = true;
     });
     for (var i = 0; i < capacityOptions.length; i++) {
-      if (roomNumber.value === '100' && capacityOptions[i] !== '0') {
+      if (roomNumber.value === '100' && capacityOptions[i].value === '0') {
         capacityOptions[i].disabled = false;
+        capacityOptions[i].selected = true;
         break;
       }
-      if (capacityOptions[i].value > roomNumber.value || capacityOptions[i].value === '0') {
+      if (capacityOptions[i].value <= roomNumber.value && capacityOptions[i].value !== '0' && roomNumber.value !== '100') {
         capacityOptions[i].disabled = false;
+        capacityOptions[i].selected = true;
       }
     }
   };
