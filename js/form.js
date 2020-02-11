@@ -23,7 +23,7 @@
     });
   };
 
-  // Функция валидации количества комнат
+  // Функция начальной установки количества комнат
   var initialStateRooms = function () {
     capacityOptions.forEach(function (item) {
       if (item.value === roomNumber.value) {
@@ -34,34 +34,19 @@
     });
   };
 
+  // Функция валидации количества комнат
   var onSelectRooms = function () {
     capacityOptions.forEach(function (item) {
-      item.disabled = false;
+      item.disabled = true;
     });
-    if (roomNumber.value === '1') {
-      capacityOptions.forEach(function (item) {
-        if (item.value !== roomNumber.value) {
-          item.disabled = true;
-        }
-      });
-    } else if (roomNumber.value === '2') {
-      capacityOptions.forEach(function (item) {
-        if (item.value !== roomNumber.value && item.value !== '1') {
-          item.disabled = true;
-        }
-      });
-    } else if (roomNumber.value === '3') {
-      capacityOptions.forEach(function (item) {
-        if (item.value !== roomNumber.value && item.value !== '1' && item.value !== '2') {
-          item.disabled = true;
-        }
-      });
-    } else {
-      capacityOptions.forEach(function (item) {
-        if (item.value !== '0') {
-          item.disabled = true;
-        }
-      });
+    for (var i = 0; i < capacityOptions.length; i++) {
+      if (roomNumber.value === '100' && capacityOptions[i] !== '0') {
+        capacityOptions[i].disabled = false;
+        break;
+      }
+      if (capacityOptions[i].value > roomNumber.value || capacityOptions[i].value === '0') {
+        capacityOptions[i].disabled = false;
+      }
     }
   };
 
