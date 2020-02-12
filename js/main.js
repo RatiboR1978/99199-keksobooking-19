@@ -16,14 +16,14 @@ var typesBuilding = adForm.querySelectorAll('#type > option');
 var price = adForm.querySelector('#price');
 var filtersContainer = map.querySelector('.map__filters-container');
 var filters = filtersContainer.querySelector('.map__filters');
-var priseArr = [0, 1000, 5000, 10000];
+var PRISE_ARR = [0, 1000, 5000, 10000];
 var pinMain = mapPins.querySelector('.map__pin--main');
 var inputAddress = adForm.querySelector('#address');
 var PIN_MAIN_X = parseInt(pinMain.style.left, 10) + 62 / 2;
 var PIN_MAIN_Y = parseInt(pinMain.style.top, 10) + 62 + 22;
-var checkinTimes = ['12:00', '13:00', '14:00'];
-var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var CHECKIN_TIMES = ['12:00', '13:00', '14:00'];
+var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var similarAdvertTemplate = document.querySelector('#card')
   .content
   .querySelector('.map__card');
@@ -94,7 +94,7 @@ var creationArrayAdverts = function () {
       var j = getRandom(arrTypes);
       return arrTypes[j].name;
     };
-    var indexCheckinTimes = getRandom(checkinTimes);
+    var indexCheckinTimes = getRandom(CHECKIN_TIMES);
     var positionX = getRandomX(1200);
     var positionY = getRandomY(130, 630);
     arr.push({
@@ -108,11 +108,11 @@ var creationArrayAdverts = function () {
         'type': createType(typePremises),
         'rooms': 3,
         'guests': 2,
-        'checkin': checkinTimes[indexCheckinTimes],
-        'checkout': checkinTimes[indexCheckinTimes],
-        'features': getRandomArr(features),
+        'checkin': CHECKIN_TIMES[indexCheckinTimes],
+        'checkout': CHECKIN_TIMES[indexCheckinTimes],
+        'features': getRandomArr(FEATURES),
         'description': 'Великолепная квартира-студия в центре Токио. Подходит как туристам, так и бизнесменам. Квартира полностью укомплектована и недавно отремонтирована.',
-        'photos': getRandomArr(photos)
+        'photos': getRandomArr(PHOTOS)
       },
       'location': {
         'x': positionX,
@@ -244,8 +244,8 @@ var onActivationMap = function () {
 var selectionPrise = function () {
   typesBuilding.forEach(function (item, i) {
     if (item.selected) {
-      price.min = priseArr[i];
-      price.placeholder = '' + priseArr[i];
+      price.min = PRISE_ARR[i];
+      price.placeholder = '' + PRISE_ARR[i];
     }
   });
 };
