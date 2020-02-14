@@ -50,16 +50,10 @@
       var indexCheckinTimes = window.utils.getRandom(CHECKIN_TIMES);
       var positionX = window.utils.getRandomX(MAX_X);
       var positionY = window.utils.getRandomY(MIN_Y, MAX_Y);
-  var card = function () {
-    var arr = [];
-    for (var i = 0; i < 8; i++) {
       var createType = function (arrTypes) {
         var j = window.utils.getRandom(arrTypes);
         return arrTypes[j].name;
       };
-      var indexCheckinTimes = window.utils.getRandom(CHECKIN_TIMES);
-      var positionX = window.utils.getRandomX(1200);
-      var positionY = window.utils.getRandomY(130, 630);
 
       arr.push({
         'author': {
@@ -87,7 +81,6 @@
 
     return arr;
   };
-
   // Экспорт
   window.card = {
     getCards: getCards
