@@ -66,7 +66,6 @@
     }
 
     featuresAdvert.innerHTML = '';
-
     if (advert.offer.features === null) {
       featuresAdvert.style.cssText = 'display: none;';
     } else {
