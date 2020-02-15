@@ -25,6 +25,7 @@
     var featuresAdvert = advertElement.querySelector('.popup__features');
     var propertiesAdvert = [titleAdvert, addressAdvert, typeAdvert];
     var propertiesObject = [advert.offer.title, advert.offer.address, advert.offer.type];
+
     if (advert.author.avatar === null) {
       avatarAdvert.style.cssText = 'display: none;';
     } else {
@@ -63,12 +64,14 @@
       timeAdvert.textContent = 'Заезд после ' + advert.offer.checkin + ', выезд' +
         ' до ' + advert.offer.checkout;
     }
+
     featuresAdvert.innerHTML = '';
     if (advert.offer.features === null) {
       featuresAdvert.style.cssText = 'display: none;';
     } else {
       for (var i = 0; i < advert.offer.features.length; i++) {
         var newfeature = document.createElement('li');
+
         newfeature.classList.add('popup__feature', 'popup__feature--' + advert.offer.features[i]);
         featuresAdvert.appendChild(newfeature);
       }
@@ -79,12 +82,14 @@
     } else {
       descriptionAdvert.textContent = advert.offer.description;
     }
+
     photosAdvert.innerHTML = '';
     if (advert.offer.description === null) {
       photosAdvert.style.cssText = 'display: none;';
     } else {
       for (var j = 0; j < advert.offer.photos.length; j++) {
         var newPhoto = document.createElement('img');
+
         newPhoto.src = advert.offer.photos[j];
         newPhoto.classList.add('popup__photo');
         newPhoto.width = '45';
@@ -104,6 +109,7 @@
       if (!item.classList.contains('map__pin--main')) {
         item.addEventListener('click', function () {
           var cards = map.querySelectorAll(classCollection);
+
           window.utils.addClass(cards, 'hidden');
           cards[j - 1].classList.remove('hidden');
         });
@@ -115,6 +121,7 @@
   var closeAdvert = function (collAdvert) {
     document.addEventListener('keydown', function (evt) {
       var key = evt.key;
+
       if (key === 'Escape') {
         collAdvert.forEach(function (item) {
           item.classList.add('hidden');
@@ -123,6 +130,7 @@
     });
     collAdvert.forEach(function (item, i) {
       var closeBtn = item.querySelector('.popup__close');
+
       closeBtn.addEventListener('click', function () {
         collAdvert[i].classList.add('hidden');
       });

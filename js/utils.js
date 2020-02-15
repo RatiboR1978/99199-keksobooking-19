@@ -6,6 +6,9 @@
 (function () {
   var adForm = document.querySelector('.ad-form');
   var map = document.querySelector('.map');
+  var pinMain = document.querySelector('.map__pin--main');
+  var inputAddress = adForm.querySelector('#address');
+
   var createAvatarNumber = function (arr) {
     while (arr.length < 8) {
       var result = Math.floor(1 + Math.random() * 8);
@@ -58,6 +61,8 @@
     getRandomArr: getRandomArr,
     addClass: addClass,
     adForm: adForm,
+    pinMain: pinMain,
+    inputAddress: inputAddress,
     map: map
   };
 })();

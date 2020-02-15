@@ -14,7 +14,7 @@
   var capacityOptions = capacity.querySelectorAll('option');
 
   // Функция выбора цены
-  var selectionPrise = function () {
+  var setPricesForSelectedBuilding = function () {
     typesBuilding.forEach(function (item, i) {
       if (item.selected) {
         price.min = PRISE_ARR[i];
@@ -24,7 +24,8 @@
   };
 
   // Функция начальной установки количества комнат
-  var initialStateRooms = function () {
+
+  var setStateRoomsInitial = function () {
     capacityOptions.forEach(function (item) {
       if (item.value === roomNumber.value) {
         item.selected = true;
@@ -39,12 +40,14 @@
     capacityOptions.forEach(function (item) {
       item.disabled = true;
     });
+
     for (var i = 0; i < capacityOptions.length; i++) {
       if (roomNumber.value === '100' && capacityOptions[i].value === '0') {
         capacityOptions[i].disabled = false;
         capacityOptions[i].selected = true;
         break;
       }
+
       if (capacityOptions[i].value <= roomNumber.value && capacityOptions[i].value !== '0' && roomNumber.value !== '100') {
         capacityOptions[i].disabled = false;
         capacityOptions[i].selected = true;
@@ -58,12 +61,13 @@
   };
 
 
-  initialStateRooms();
+  setStateRoomsInitial();
+
   roomNumber.addEventListener('change', onSelectRooms);
 
   // Экспорт
   window.form = {
-    selectionPrise: selectionPrise,
+    selectionPrise: setPricesForSelectedBuilding,
     setTime: setTime
   };
 })();
