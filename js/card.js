@@ -28,18 +28,7 @@
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-  // var onError = function (message) {
-  //   // console.error(message);
-  // };
-  //
-  // var onSuccess = function (data) {
-  // // console.log(data);
-  // };
-  //
-  // window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
-  // console.log(window.data)
   // функция создания массиба объявлений
-
   var getCards = function () {
     var arr = [];
 
