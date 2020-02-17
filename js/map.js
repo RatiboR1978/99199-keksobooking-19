@@ -29,12 +29,8 @@
     }
   };
 
-  var adverts = window.card.getCards();
-  var fragmentAdverts = document.createDocumentFragment();
-  var fragmentLabelAdverts = document.createDocumentFragment();
-
   //  Функция активации карты
-  var onActivationMap = function () {
+  var onActivationMap = function (fragmentLabelAdverts, fragmentAdverts) {
 
     window.utils.map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -46,6 +42,28 @@
     filtersContainer.before(fragmentAdverts);
   };
 
+  var onError = function (message) {
+    return message;
+    // console.error(message);
+  };
+
+  //  Функция обработки данных с сервера
+  var onSuccess = function (data) {
+    var adverts = data;
+    var fragmentAdverts = document.createDocumentFragment();
+    var fragmentLabelAdverts = document.createDocumentFragment();
+
+    for (var i = 0; i < adverts.length; i++) {
+      fragmentLabelAdverts.appendChild(window.pin(adverts[i]));
+      fragmentAdverts.appendChild(window.modal.renderAdvert(adverts[i]));
+    }
+
+    pinMain.addEventListener('mousedown', function (evt) {
+      window.moainPin.onMouseDownPin(evt, fragmentLabelAdverts, fragmentAdverts);
+    });
+
+  };
+
   timeIn.addEventListener('change', function () {
     window.form.setTime(timeIn, timeOut);
   });
@@ -53,12 +71,6 @@
   timeOut.addEventListener('change', function () {
     window.form.setTime(timeOut, timeIn);
   });
-
-  for (var i = 0; i < adverts.length; i++) {
-    fragmentLabelAdverts.appendChild(window.pin(adverts[i]));
-    fragmentAdverts.appendChild(window.modal.renderAdvert(adverts[i]));
-  }
-
 
   window.utils.inputAddress.value = PIN_MAIN_X + ', ' + PIN_MAIN_Y;
   window.form.selectionPrise();
@@ -69,6 +81,7 @@
   behaviorElemForm(inputsForm, true);
   behaviorElemForm(selectsForm, true);
 
+  window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
 
   // Экспорт
   window.map = {
