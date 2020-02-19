@@ -24,7 +24,6 @@
   };
 
   // Функция начальной установки количества комнат
-
   var setStateRoomsInitial = function () {
     capacityOptions.forEach(function (item) {
       if (item.value === roomNumber.value) {
@@ -59,7 +58,6 @@
   var setTime = function (elem1, elem2) {
     elem2.value = elem1.value;
   };
-
 
   setStateRoomsInitial();
 

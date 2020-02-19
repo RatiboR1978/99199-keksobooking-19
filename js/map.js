@@ -31,13 +31,11 @@
 
   //  Функция активации карты
   var onActivationMap = function (fragmentLabelAdverts, fragmentAdverts) {
-
     window.utils.map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     filters.classList.remove('ad-form--disabled');
     behaviorElemForm(inputsForm, false);
     behaviorElemForm(selectsForm, false);
-
     mapPins.appendChild(fragmentLabelAdverts);
     filtersContainer.before(fragmentAdverts);
   };
@@ -53,6 +51,22 @@
     var fragmentAdverts = document.createDocumentFragment();
     var fragmentLabelAdverts = document.createDocumentFragment();
 
+    // Функция сброса страницы
+    var resetPage = function () {
+      var mapPins = document.querySelectorAll('map__pin');
+      mapPins.forEach(function (item) {
+        if (!item.classList.contains('map__pin--main')) {
+          item.remove();
+        }
+      });
+
+      window.utils.map.classList.add('map--faded');
+      window.utils.adForm.classList.add('ad-form--disabled');
+      window.map.filters.classList.remove('ad-form--disabled');
+      window.map.behaviorElemForm(window.map.inputsForm, true);
+      window.map.behaviorElemForm(window.map.selectsForm, true);
+    };
+
     for (var i = 0; i < adverts.length; i++) {
       fragmentLabelAdverts.appendChild(window.pin(adverts[i]));
       fragmentAdverts.appendChild(window.modal.renderAdvert(adverts[i]));
@@ -60,6 +74,13 @@
 
     pinMain.addEventListener('mousedown', function (evt) {
       window.moainPin.onMouseDownPin(evt, fragmentLabelAdverts, fragmentAdverts);
+    });
+
+    var form = window.utils.adForm;
+
+    form.addEventListener('submit', function (evt) {
+      window.upload('https://js.dump.academy/keksobooking', new FormData(form), window.upload.onModalSuccess, window.upload.onModalError);
+      evt.preventDefault();
     });
 
   };
@@ -86,6 +107,10 @@
   // Экспорт
   window.map = {
     onActivationMap: onActivationMap,
+    behaviorElemForm: behaviorElemForm,
+    inputsForm: inputsForm,
+    filters: filters,
+    selectsForm: selectsForm,
     mapPins: window.utils.map.querySelector('.map__pins'),
   };
 })();
