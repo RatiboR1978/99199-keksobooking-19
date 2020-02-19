@@ -31,13 +31,11 @@
 
   //  Функция активации карты
   var onActivationMap = function (fragmentLabelAdverts, fragmentAdverts) {
-
     window.utils.map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     filters.classList.remove('ad-form--disabled');
     behaviorElemForm(inputsForm, false);
     behaviorElemForm(selectsForm, false);
-
     mapPins.appendChild(fragmentLabelAdverts);
     filtersContainer.before(fragmentAdverts);
   };
@@ -57,6 +55,50 @@
       fragmentLabelAdverts.appendChild(window.pin(adverts[i]));
       fragmentAdverts.appendChild(window.modal.renderAdvert(adverts[i]));
     }
+
+    // Функция сброса страницы
+    var resetPage = function () {
+      var mapPinsAll = document.querySelectorAll('.map__pin');
+      var mapCards = document.querySelectorAll('.map__card');
+
+      for (var k = 0; k < mapPinsAll.length; k++) {
+        if (k < mapPinsAll.length - 1) {
+          mapCards[k].remove();
+        }
+        if (!mapPinsAll[k].classList.contains('map__pin--main')) {
+          mapPinsAll[k].remove();
+        } else {
+          mapPinsAll[k].style.top = (PIN_MAIN_Y - pinHeight) + 'px';
+          mapPinsAll[k].style.left = (PIN_MAIN_X - pinWidth / 2) + 'px';
+        }
+      }
+
+      inputsForm.forEach(function (item) {
+        item.value = '';
+      });
+      window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
+      document.querySelector('#address').value = PIN_MAIN_X + ', ' + PIN_MAIN_Y;
+      window.utils.map.classList.add('map--faded');
+      window.utils.adForm.classList.add('ad-form--disabled');
+      window.map.filters.classList.remove('ad-form--disabled');
+      window.map.behaviorElemForm(window.map.inputsForm, true);
+      window.map.behaviorElemForm(window.map.selectsForm, true);
+    };
+
+    var adFormReset = document.querySelector('.ad-form__reset');
+    var form = window.utils.adForm;
+
+    adFormReset.addEventListener('click', function () {
+      resetPage();
+    });
+
+    form.addEventListener('submit', function (evt) {
+      window.upload.formUpLoad('https://js.dump.academy/keksobooking', new FormData(form), function () {
+        window.upload.onModalSuccess();
+        resetPage();
+      }, window.upload.onModalError);
+      evt.preventDefault();
+    });
 
     pinMain.addEventListener('mousedown', function (evt) {
       window.moainPin.onMouseDownPin(evt, fragmentLabelAdverts, fragmentAdverts);
@@ -86,6 +128,10 @@
   // Экспорт
   window.map = {
     onActivationMap: onActivationMap,
+    behaviorElemForm: behaviorElemForm,
+    inputsForm: inputsForm,
+    filters: filters,
+    selectsForm: selectsForm,
     mapPins: window.utils.map.querySelector('.map__pins'),
   };
 })();
