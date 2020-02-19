@@ -12,7 +12,7 @@
     }
   };
 
-  window.upload = function (url, data, onSuccess, onError) {
+  var uploadFunc = function (url, data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -33,6 +33,15 @@
     var body = document.querySelector('body');
     var template = document.querySelector('#success').content.querySelector('div');
     var element = template.cloneNode(true);
+
+    if (document.querySelector('.success')) {
+      document.querySelector('.success').remove();
+    }
+
+    if (document.querySelector('.error')) {
+      document.querySelector('.error').remove();
+    }
+
     body.appendChild(element);
     body.addEventListener('click', function () {
       onModalSuccessClose('.success');
@@ -51,6 +60,15 @@
     var body = document.querySelector('body');
     var template = document.querySelector('#error').content.querySelector('div');
     var element = template.cloneNode(true);
+
+    if (document.querySelector('.success')) {
+      document.querySelector('.success').remove();
+    }
+
+    if (document.querySelector('.error')) {
+      document.querySelector('.error').remove();
+    }
+
     body.appendChild(element);
 
     var errorButton = document.querySelector('.error__button');
@@ -68,6 +86,7 @@
 
   // Экспорт
   window.upload = {
+    formUpLoad: uploadFunc,
     onModalSuccess: onModalSuccess,
     onModalError: onModalError
   };
