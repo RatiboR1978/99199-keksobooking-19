@@ -74,10 +74,13 @@
       }
 
       inputsForm.forEach(function (item) {
-        item.value = '';
+
+        if (item.name !== 'address') {
+          item.value = '';
+        } else {
+          item.value = PIN_MAIN_X + ', ' + PIN_MAIN_Y;
+        }
       });
-      window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
-      document.querySelector('#address').value = PIN_MAIN_X + ', ' + PIN_MAIN_Y;
       window.utils.map.classList.add('map--faded');
       window.utils.adForm.classList.add('ad-form--disabled');
       window.map.filters.classList.remove('ad-form--disabled');
@@ -85,11 +88,11 @@
       window.map.behaviorElemForm(window.map.selectsForm, true);
     };
 
-    var adFormReset = document.querySelector('.ad-form__reset');
     var form = window.utils.adForm;
 
-    adFormReset.addEventListener('click', function () {
+    form.addEventListener('reset', function (evt) {
       resetPage();
+      evt.preventDefault();
     });
 
     form.addEventListener('submit', function (evt) {
