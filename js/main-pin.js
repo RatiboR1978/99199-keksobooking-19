@@ -15,7 +15,7 @@
   var MAP_HEIGHT_MIN = 130 - PIN_HEIGHT - PIN_HEIGHT_OFFSET;
   var MAP_HEIGHT_MAX = 630 - PIN_HEIGHT - PIN_HEIGHT_OFFSET;
 
-  var onMouseDownPin = function (evt, fragmentLabelAdverts, fragmentAdverts) {
+  var onMouseDownPin = function (evt) {
     evt.preventDefault();
     var dragOffset = {
       x: evt.clientX - pinMain.offsetLeft,
@@ -55,7 +55,7 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      window.map.onActivationMap(fragmentLabelAdverts, fragmentAdverts);
+      window.map.onActivationMap();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
@@ -65,6 +65,7 @@
       window.modal.openAdvert(pins, '.map__card');
       window.modal.closeAdvert(cards);
     };
+
     if (evt.button === 0) {
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
