@@ -52,6 +52,13 @@
     }
   };
 
+  // Функция удаления класса
+  var removeClass = function (collection, className) {
+    for (var i = 0; i < collection.length; i++) {
+      collection[i].classList.remove(className);
+    }
+  };
+
   // Экспорт
   window.utils = {
     createAvatarNumber: createAvatarNumber,
@@ -60,6 +67,7 @@
     getRandom: getRandom,
     getRandomArr: getRandomArr,
     addClass: addClass,
+    removeClass: removeClass,
     adForm: adForm,
     pinMain: pinMain,
     inputAddress: inputAddress,

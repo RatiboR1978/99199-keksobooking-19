@@ -43,7 +43,7 @@
     }
 
     body.appendChild(element);
-    body.addEventListener('click', function () {
+    document.querySelector('.success').addEventListener('click', function () {
       onModalSuccessClose('.success');
     });
     body.addEventListener('keydown', function (evtBody) {
