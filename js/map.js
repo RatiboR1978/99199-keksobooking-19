@@ -54,6 +54,12 @@
     mapPins.appendChild(fragmentLabelAdverts);
     filtersContainer.before(fragmentAdverts);
 
+    var pins = window.map.mapPins.querySelectorAll('.map__pin');
+    var cards = window.utils.map.querySelectorAll('.map__card');
+
+    window.modal.openAdvert(pins, '.map__card');
+    window.modal.closeAdvert(cards);
+
     // Функция сброса страницы
     var resetPage = function () {
       var mapPinsAll = document.querySelectorAll('.map__pin');
