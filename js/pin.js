@@ -5,12 +5,11 @@
 */
 
 (function () {
-  var similarAdvertLabelTemplate = document.querySelector('#pin')
-    .content
-    .querySelector('.map__pin');
-
   // Функция создания метки
   var pin = function (adverts) {
+    var similarAdvertLabelTemplate = document.querySelector('#pin')
+      .content
+      .querySelector('.map__pin');
     var labeltElement = similarAdvertLabelTemplate.cloneNode(true);
 
     labeltElement.style = 'left: ' + (adverts.location.x - 25) + 'px; top: ' + (adverts.location.y - 70) + 'px;';

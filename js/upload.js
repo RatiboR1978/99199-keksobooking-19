@@ -30,7 +30,7 @@
 
   // Функция действия после удачной отправки формы
   var onModalSuccess = function () {
-    var body = document.querySelector('body');
+    var main = document.querySelector('main');
     var template = document.querySelector('#success').content.querySelector('div');
     var element = template.cloneNode(true);
 
@@ -42,11 +42,11 @@
       document.querySelector('.error').remove();
     }
 
-    body.appendChild(element);
-    document.querySelector('.success').addEventListener('click', function () {
+    main.appendChild(element);
+    main.addEventListener('click', function () {
       onModalSuccessClose('.success');
     });
-    body.addEventListener('keydown', function (evtBody) {
+    main.addEventListener('keydown', function (evtBody) {
       var key = evtBody.key;
 
       if (key === 'Escape') {
@@ -57,7 +57,7 @@
 
   // Функция действия после неудачной отправки формы
   var onModalError = function () {
-    var body = document.querySelector('body');
+    var main = document.querySelector('main');
     var template = document.querySelector('#error').content.querySelector('div');
     var element = template.cloneNode(true);
 
@@ -69,13 +69,17 @@
       document.querySelector('.error').remove();
     }
 
-    body.appendChild(element);
+    main.appendChild(element);
 
     var errorButton = document.querySelector('.error__button');
+    main.addEventListener('click', function () {
+      onModalSuccessClose('.error');
+    });
+
     errorButton.addEventListener('click', function () {
       onModalSuccessClose('.error');
     });
-    body.addEventListener('keydown', function (evtBody) {
+    main.addEventListener('keydown', function (evtBody) {
       var key = evtBody.key;
 
       if (key === 'Escape') {
