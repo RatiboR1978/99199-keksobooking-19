@@ -58,12 +58,6 @@
       window.map.onActivationMap();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-
-      var pins = window.map.mapPins.querySelectorAll('.map__pin');
-      var cards = window.utils.map.querySelectorAll('.map__card');
-
-      window.modal.openAdvert(pins, '.map__card');
-      window.modal.closeAdvert(cards);
     };
 
     if (evt.button === 0) {

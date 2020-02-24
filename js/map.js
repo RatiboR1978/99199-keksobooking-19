@@ -8,6 +8,7 @@
   var mapPins = window.utils.map.querySelector('.map__pins');
   var filtersContainer = window.utils.map.querySelector('.map__filters-container');
   var filters = filtersContainer.querySelector('.map__filters');
+  var selectsFilter = filters.querySelectorAll('select');
   var adForm = window.utils.adForm;
   var inputsForm = adForm.querySelectorAll('input');
   var selectsForm = adForm.querySelectorAll('select');
@@ -18,7 +19,9 @@
   var pinHeight = 84;
   var PIN_MAIN_X = parseInt(pinMain.style.left, 10) + pinWidth / 2;
   var PIN_MAIN_Y = parseInt(pinMain.style.top, 10) + pinHeight;
+  var amountPinsInMap = 5;
   var typeBuilding = adForm.querySelector('#type');
+  var filterHousingType = filters.querySelector('#housing-type');
 
   // функция активации элементов формы
   var behaviorElemForm = function (arr, bool) {
@@ -40,44 +43,66 @@
     return message;
   };
 
-  //  Функция обработки данных с сервера
-  var onSuccess = function (data) {
-    var adverts = data;
+  // Функция появления пинов
+  var appearancePin = function (data, amount) {
     var fragmentAdverts = document.createDocumentFragment();
     var fragmentLabelAdverts = document.createDocumentFragment();
 
-    for (var i = 0; i < adverts.length; i++) {
-      fragmentLabelAdverts.appendChild(window.pin(adverts[i]));
-      fragmentAdverts.appendChild(window.modal.renderAdvert(adverts[i]));
+    for (var i = 0; i < amount; i++) {
+      fragmentLabelAdverts.appendChild(window.pin(data[i]));
+      fragmentAdverts.appendChild(window.modal.renderAdvert(data[i]));
     }
-
     mapPins.appendChild(fragmentLabelAdverts);
     filtersContainer.before(fragmentAdverts);
+
+    var pins = window.map.mapPins.querySelectorAll('.map__pin');
+    var cards = window.utils.map.querySelectorAll('.map__card');
+
+    window.modal.openAdvert(pins, '.map__card');
+    window.modal.closeAdvert(cards);
+  };
+
+  // Функция ичистки карты от пинов
+  var cleaningMap = function (mapPinsAll, mapCards) {
+    for (var k = 0; k < mapPinsAll.length; k++) {
+      if (k < mapPinsAll.length - 1) {
+        mapCards[k].remove();
+      }
+      if (!mapPinsAll[k].classList.contains('map__pin--main')) {
+        mapPinsAll[k].remove();
+      }
+    }
+  };
+
+  //  Функция обработки данных с сервера
+  var onSuccess = function (data) {
+    var adverts = data;
+
+    appearancePin(data, amountPinsInMap);
+
+    filterHousingType.addEventListener('change', function () {
+      window.filters.filtrationHousingType(filterHousingType, adverts);
+    });
 
     // Функция сброса страницы
     var resetPage = function () {
       var mapPinsAll = document.querySelectorAll('.map__pin');
       var mapCards = document.querySelectorAll('.map__card');
 
-      for (var k = 0; k < mapPinsAll.length; k++) {
-        if (k < mapPinsAll.length - 1) {
-          mapCards[k].remove();
-        }
-        if (!mapPinsAll[k].classList.contains('map__pin--main')) {
-          mapPinsAll[k].remove();
-        } else {
-          mapPinsAll[k].style.top = (PIN_MAIN_Y - pinHeight) + 'px';
-          mapPinsAll[k].style.left = (PIN_MAIN_X - pinWidth / 2) + 'px';
-        }
-      }
+      cleaningMap(mapPinsAll, mapCards);
+      window.utils.pinMain.style.top = (PIN_MAIN_Y - pinHeight) + 'px';
+      window.utils.pinMain.style.left = (PIN_MAIN_X - pinWidth / 2) + 'px';
 
       inputsForm.forEach(function (item) {
-
         if (item.name !== 'address') {
           item.value = '';
         } else {
           item.value = PIN_MAIN_X + ', ' + PIN_MAIN_Y;
         }
+      });
+
+      selectsFilter.forEach(function (item) {
+        item.value = 'any';
       });
 
       pinMain.addEventListener('mouseup', onData);
@@ -108,6 +133,11 @@
   var onData = function () {
     window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
     pinMain.removeEventListener('mouseup', onData);
+    var pins = window.map.mapPins.querySelectorAll('.map__pin');
+    var cards = window.utils.map.querySelectorAll('.map__card');
+
+    window.modal.openAdvert(pins, '.map__card');
+    window.modal.closeAdvert(cards);
   };
 
   timeIn.addEventListener('change', function () {
@@ -136,6 +166,8 @@
   // Экспорт
   window.map = {
     onActivationMap: onActivationMap,
+    cleaningMap: cleaningMap,
+    appearancePin: appearancePin,
     inputsForm: inputsForm,
     filters: filters,
     selectsForm: selectsForm,
