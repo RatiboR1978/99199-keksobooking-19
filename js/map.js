@@ -21,7 +21,6 @@
   var PIN_MAIN_Y = parseInt(pinMain.style.top, 10) + pinHeight;
   var amountPinsInMap = 5;
   var typeBuilding = adForm.querySelector('#type');
-  var filterHousingType = filters.querySelector('#housing-type');
 
   // функция активации элементов формы
   var behaviorElemForm = function (arr, bool) {
@@ -63,7 +62,9 @@
   };
 
   // Функция ичистки карты от пинов
-  var cleaningMap = function (mapPinsAll, mapCards) {
+  var cleaningMap = function () {
+    var mapPinsAll = document.querySelectorAll('.map__pin');
+    var mapCards = document.querySelectorAll('.map__card');
     for (var k = 0; k < mapPinsAll.length; k++) {
       if (k < mapPinsAll.length - 1) {
         mapCards[k].remove();
@@ -80,8 +81,8 @@
 
     appearancePin(data, amountPinsInMap);
 
-    filterHousingType.addEventListener('change', function () {
-      window.filters.filtrationHousingType(filterHousingType, adverts);
+    window.filters.filterForm.addEventListener('change', function () {
+      window.filters.onfilterFormChange(adverts);
     });
 
     // Функция сброса страницы
@@ -168,6 +169,7 @@
     onActivationMap: onActivationMap,
     cleaningMap: cleaningMap,
     appearancePin: appearancePin,
+    amountPinsInMap: amountPinsInMap,
     inputsForm: inputsForm,
     filters: filters,
     selectsForm: selectsForm,

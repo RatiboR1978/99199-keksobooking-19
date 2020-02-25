@@ -3,25 +3,95 @@
 /*
  Модуль отвечает за фильтрацию пинов на карте
 */
-(function () {
-  // Функция фильтрации по типу жилья
-  var filtrationHousingType = function (elem, data) {
-    var mapPinsAll = document.querySelectorAll('.map__pin');
-    var mapCards = document.querySelectorAll('.map__card');
-    var resultArr = [];
 
-    window.map.cleaningMap(mapPinsAll, mapCards);
-    data.forEach(function (item) {
-      if (item.offer.type === elem.value || elem.value === 'any') {
-        resultArr.push(item);
-      }
+(function () {
+  var filterForm = document.querySelector('.map__filters');
+  var filterType = filterForm.querySelector('#housing-type');
+  var filterPrices = filterForm.querySelector('#housing-price');
+  var filterRooms = filterForm.querySelector('#housing-rooms');
+  var filterGuests = filterForm.querySelector('#housing-guests');
+  var filterCheck = filterForm.querySelector('#housing-features');
+  var DELAY = 500;
+  var prices = {
+    'low': {
+      MIN: 0,
+      MAX: 10000
+    },
+    'middle': {
+      MIN: 10000,
+      MAX: 50000
+    },
+    'high': {
+      MIN: 50000,
+      MAX: 9999999
+    },
+  };
+
+  // Фильтрация селектов кроме цены
+  var filterSelect = function (field, item, prop) {
+    if (field.value !== 'any') {
+      return (item['offer'][prop].toString() === field.value);
+    } else {
+      return true;
+    }
+  };
+
+  // Фильтрация селкта цены
+  var filterPrice = function (field, item) {
+    if (field.value !== 'any') {
+      return item['offer']['price'] >= prices[field.value].MIN && item.offer.price < prices[field.value].MAX;
+    } else {
+      return true;
+    }
+  };
+
+  // Фильтрация чекбоксов удобств
+  var filterFeatures = function (item) {
+    var checkedCheckbox = Array.from(filterCheck.querySelectorAll('input[type="checkbox"]:checked'));
+    return checkedCheckbox.every(function (feature) {
+      return item['offer']['features'].includes(feature.value);
     });
-    resultArr.length = (resultArr.length <= 5) ? resultArr.length : 5;
-    window.map.appearancePin(resultArr, resultArr.length);
+  };
+
+  var onfilterFormChange = function (data) {
+    var filteredData = data.slice();
+
+    // Фильтрация типа жилья
+    filteredData = filteredData.filter(function (item) {
+      return filterSelect(filterType, item, 'type');
+    });
+
+    // Фильтрация количества комнат
+    filteredData = filteredData.filter(function (item) {
+      return filterPrice(filterPrices, item);
+    });
+
+    // Фильтрация количества комнат
+    filteredData = filteredData.filter(function (item) {
+      return filterSelect(filterRooms, item, 'rooms');
+    });
+
+    // Фильтрация количества гостей
+    filteredData = filteredData.filter(function (item) {
+      return filterSelect(filterGuests, item, 'guests');
+    });
+
+    // Фильтрация удобства
+    filteredData = filteredData.filter(function (item) {
+      return filterFeatures(item);
+    });
+
+
+    window.map.cleaningMap();
+    filteredData.length = (filteredData.length <= window.map.amountPinsInMap) ? filteredData.length : window.map.amountPinsInMap;
+    setTimeout(function () {
+      window.map.appearancePin(filteredData, filteredData.length);
+    }, DELAY);
   };
 
   // Экспорт
   window.filters = {
-    filtrationHousingType: filtrationHousingType
+    filterForm: filterForm,
+    onfilterFormChange: onfilterFormChange
   };
 })();
