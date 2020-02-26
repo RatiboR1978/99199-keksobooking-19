@@ -7,10 +7,14 @@
 (function () {
   var mapPins = window.utils.map.querySelector('.map__pins');
   var filtersContainer = window.utils.map.querySelector('.map__filters-container');
+  var mapFeatures = window.utils.map.querySelector('.map__features');
   var filters = filtersContainer.querySelector('.map__filters');
   var selectsFilter = filters.querySelectorAll('select');
   var adForm = window.utils.adForm;
   var inputsForm = adForm.querySelectorAll('input');
+  var descriptionForm = adForm.querySelector('#description');
+  var inputsCheck = document.querySelectorAll('input[type="checkbox"]');
+  var formSubmit = document.querySelector('.ad-form__element--submit');
   var selectsForm = adForm.querySelectorAll('select');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
@@ -19,6 +23,11 @@
   var pinHeight = 84;
   var PIN_MAIN_X = parseInt(pinMain.style.left, 10) + pinWidth / 2;
   var PIN_MAIN_Y = parseInt(pinMain.style.top, 10) + pinHeight;
+  var INITIAL_VALUE_FORM = {
+    type: 'flat',
+    time: '12:00',
+    amount: 1
+  };
   var amountPinsInMap = 5;
   var typeBuilding = adForm.querySelector('#type');
 
@@ -34,6 +43,12 @@
     window.utils.map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     filters.classList.remove('ad-form--disabled');
+    selectsFilter.forEach(function (item) {
+      item.disabled = false;
+    });
+    mapFeatures.disabled = false;
+    formSubmit.disabled = false;
+    descriptionForm.disabled = false;
     behaviorElemForm(inputsForm, false);
     behaviorElemForm(selectsForm, false);
   };
@@ -103,7 +118,33 @@
       });
 
       selectsFilter.forEach(function (item) {
+        item.disabled = true;
+      });
+
+      mapFeatures.disabled = true;
+      formSubmit.disabled = true;
+      descriptionForm.disabled = true;
+      descriptionForm.value = '';
+
+      selectsFilter.forEach(function (item) {
         item.value = 'any';
+      });
+
+      inputsCheck.forEach(function (item) {
+        item.checked = false;
+      });
+
+      selectsForm.forEach(function (item) {
+        if (item.name === 'type') {
+          item.value = INITIAL_VALUE_FORM.type;
+          window.form.selectionPrise();
+        }
+        if (item.name === 'timein' || item.name === 'timeout') {
+          item.value = INITIAL_VALUE_FORM.time;
+        }
+        if (item.name === 'rooms' || item.name === 'capacity') {
+          item.value = INITIAL_VALUE_FORM.amount;
+        }
       });
 
       pinMain.addEventListener('mouseup', onData);
