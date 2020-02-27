@@ -5,6 +5,16 @@
 */
 
 (function () {
+  var PIN_WIDHT = 62;
+  var PIN_HEIGHT = 84;
+  var AMOUNT_PINS_IN_MAP = 5;
+  var INITIAL_VALUE_FORM = {
+    type: 'flat',
+    time: '12:00',
+    amount: 1
+  };
+  var PIN_MAIN_X = parseInt(window.utils.pinMain.style.left, 10) + PIN_WIDHT / 2;
+  var PIN_MAIN_Y = parseInt(window.utils.pinMain.style.top, 10) + PIN_HEIGHT;
   var mapPins = window.utils.map.querySelector('.map__pins');
   var filtersContainer = window.utils.map.querySelector('.map__filters-container');
   var mapFeatures = window.utils.map.querySelector('.map__features');
@@ -21,16 +31,6 @@
   var descriptionForm = adForm.querySelectorAll('#description');
   var typeBuilding = adForm.querySelector('#type');
   var pinMain = window.utils.pinMain;
-  var PIN_WIDHT = 62;
-  var PIN_HEIGHT = 84;
-  var PIN_MAIN_X = parseInt(pinMain.style.left, 10) + PIN_WIDHT / 2;
-  var PIN_MAIN_Y = parseInt(pinMain.style.top, 10) + PIN_HEIGHT;
-  var INITIAL_VALUE_FORM = {
-    type: 'flat',
-    time: '12:00',
-    amount: 1
-  };
-  var AMOUNT_PINS_IN_MAP = 5;
 
   //  Функция активации карты
   var onActivationMap = function () {
@@ -69,7 +69,7 @@
     window.modal.closeAdvert(cards);
   };
 
-  // Функция ичистки карты от пинов
+  // Функция очистки карты от пинов
   var cleaningMap = function () {
     var mapPinsAll = document.querySelectorAll('.map__pin');
     var mapCards = document.querySelectorAll('.map__card');

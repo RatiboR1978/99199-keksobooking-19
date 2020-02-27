@@ -70,10 +70,10 @@
       featuresAdvert.style.cssText = 'display: none;';
     } else {
       for (var i = 0; i < advert.offer.features.length; i++) {
-        var newfeature = document.createElement('li');
+        var newFeature = document.createElement('li');
 
-        newfeature.classList.add('popup__feature', 'popup__feature--' + advert.offer.features[i]);
-        featuresAdvert.appendChild(newfeature);
+        newFeature.classList.add('popup__feature', 'popup__feature--' + advert.offer.features[i]);
+        featuresAdvert.appendChild(newFeature);
       }
     }
 
@@ -123,9 +123,7 @@
       var key = evt.key;
 
       if (key === 'Escape') {
-        collAdvert.forEach(function (item) {
-          item.classList.add('hidden');
-        });
+        window.utils.addClass(collAdvert, 'hidden');
       }
     });
 

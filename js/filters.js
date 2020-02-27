@@ -5,14 +5,14 @@
 */
 
 (function () {
+  var DELAY = 500;
   var filterForm = document.querySelector('.map__filters');
   var filterType = filterForm.querySelector('#housing-type');
   var filterPrices = filterForm.querySelector('#housing-price');
   var filterRooms = filterForm.querySelector('#housing-rooms');
   var filterGuests = filterForm.querySelector('#housing-guests');
   var filterCheck = filterForm.querySelector('#housing-features');
-  var DELAY = 500;
-  var prices = {
+  var price = {
     'low': {
       MIN: 0,
       MAX: 10000
@@ -39,7 +39,7 @@
   // Фильтрация селкта цены
   var filterPrice = function (field, item) {
     if (field.value !== 'any') {
-      return item['offer']['price'] >= prices[field.value].MIN && item.offer.price < prices[field.value].MAX;
+      return item['offer']['price'] >= price[field.value].MIN && item.offer.price < price[field.value].MAX;
     } else {
       return true;
     }

@@ -1,4 +1,5 @@
 'use strict';
+
 /*
  Модуль работы с отправкой на сервер
 */
@@ -43,15 +44,16 @@
     }
 
     main.appendChild(element);
-    main.addEventListener('click', function () {
-      onModalSuccessClose('.success');
-    });
-    main.addEventListener('keydown', function (evtBody) {
+    document.addEventListener('keydown', function (evtBody) {
       var key = evtBody.key;
 
       if (key === 'Escape') {
         onModalSuccessClose('.success');
       }
+    });
+
+    main.addEventListener('click', function () {
+      onModalSuccessClose('.success');
     });
   };
 
@@ -79,7 +81,7 @@
       onModalSuccessClose('.error');
     });
 
-    main.addEventListener('keydown', function (evtBody) {
+    document.addEventListener('keydown', function (evtBody) {
       var key = evtBody.key;
 
       if (key === 'Escape') {
