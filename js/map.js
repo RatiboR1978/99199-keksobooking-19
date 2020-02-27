@@ -28,7 +28,7 @@
   var selectsForm = adForm.querySelectorAll('select');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
-  var descriptionForm = adForm.querySelectorAll('#description');
+  var descriptionForm = adForm.querySelector('#description');
   var typeBuilding = adForm.querySelector('#type');
   var pinMain = window.utils.pinMain;
 
@@ -83,6 +83,67 @@
     }
   };
 
+  // Функция действия после удачной отправки формы
+  var onModalSuccess = function () {
+    var main = document.querySelector('main');
+    var template = document.querySelector('#success').content.querySelector('div');
+    var element = template.cloneNode(true);
+
+    if (document.querySelector('.success')) {
+      document.querySelector('.success').remove();
+    }
+
+    if (document.querySelector('.error')) {
+      document.querySelector('.error').remove();
+    }
+
+    main.appendChild(element);
+    document.addEventListener('keydown', function (evtBody) {
+      var key = evtBody.key;
+
+      if (key === 'Escape') {
+        window.utils.onModalSuccessClose('.success');
+      }
+    });
+
+    main.addEventListener('click', function () {
+      window.utils.onModalSuccessClose('.success');
+    });
+  };
+
+  // Функция действия после неудачной отправки формы
+  var onModalError = function () {
+    var main = document.querySelector('main');
+    var template = document.querySelector('#error').content.querySelector('div');
+    var element = template.cloneNode(true);
+    var errorButton = document.querySelector('.error__button');
+
+    if (document.querySelector('.success')) {
+      document.querySelector('.success').remove();
+    }
+
+    if (document.querySelector('.error')) {
+      document.querySelector('.error').remove();
+    }
+
+    main.appendChild(element);
+    main.addEventListener('click', function () {
+      window.utils.onModalSuccessClose('.error');
+    });
+
+    errorButton.addEventListener('click', function () {
+      window.utils.onModalSuccessClose('.error');
+    });
+
+    document.addEventListener('keydown', function (evtBody) {
+      var key = evtBody.key;
+
+      if (key === 'Escape') {
+        window.utils.onModalSuccessClose('.error');
+      }
+    });
+  };
+
   //  Функция обработки данных с сервера
   var onSuccess = function (data) {
     var adverts = data;
@@ -135,6 +196,7 @@
         }
       });
 
+      descriptionForm.value = '';
       pinMain.addEventListener('mouseup', onData);
       window.utils.map.classList.add('map--faded');
       window.utils.adForm.classList.add('ad-form--disabled');
@@ -153,17 +215,20 @@
     });
 
     form.addEventListener('submit', function (evt) {
-      window.upload.formUpLoad('https://js.dump.academy/keksobooking', new FormData(form), function () {
-        window.upload.onModalSuccess();
+      window.xhr.upload(new FormData(form), function () {
+        onModalSuccess();
         resetPage();
-      }, window.upload.onModalError);
+      }, function () {
+        onModalError();
+        resetPage();
+      });
       evt.preventDefault();
     });
   };
 
   // Функция приема данных с сервера страницы
   var onData = function () {
-    window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
+    window.xhr.load(onSuccess, onError);
     var pins = window.map.mapPins.querySelectorAll('.map__pin');
     var cards = window.utils.map.querySelectorAll('.map__card');
 
