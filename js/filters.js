@@ -81,7 +81,6 @@
       return filterFeatures(item);
     });
 
-
     window.map.cleaningMap();
     filteredData.length = (filteredData.length <= window.map.amountPinsInMap) ? filteredData.length : window.map.amountPinsInMap;
     setTimeout(function () {

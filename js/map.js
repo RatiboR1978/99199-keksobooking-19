@@ -11,32 +11,26 @@
   var filters = filtersContainer.querySelector('.map__filters');
   var selectsFilter = filters.querySelectorAll('select');
   var adForm = window.utils.adForm;
+  var formElements = window.utils.adForm.querySelectorAll('fieldset');
   var inputsForm = adForm.querySelectorAll('input');
-  var descriptionForm = adForm.querySelector('#description');
   var inputsCheck = document.querySelectorAll('input[type="checkbox"]');
   var formSubmit = document.querySelector('.ad-form__element--submit');
   var selectsForm = adForm.querySelectorAll('select');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
+  var descriptionForm = adForm.querySelectorAll('#description');
+  var typeBuilding = adForm.querySelector('#type');
   var pinMain = window.utils.pinMain;
-  var pinWidth = 62;
-  var pinHeight = 84;
-  var PIN_MAIN_X = parseInt(pinMain.style.left, 10) + pinWidth / 2;
-  var PIN_MAIN_Y = parseInt(pinMain.style.top, 10) + pinHeight;
+  var PIN_WIDHT = 62;
+  var PIN_HEIGHT = 84;
+  var PIN_MAIN_X = parseInt(pinMain.style.left, 10) + PIN_WIDHT / 2;
+  var PIN_MAIN_Y = parseInt(pinMain.style.top, 10) + PIN_HEIGHT;
   var INITIAL_VALUE_FORM = {
     type: 'flat',
     time: '12:00',
     amount: 1
   };
-  var amountPinsInMap = 5;
-  var typeBuilding = adForm.querySelector('#type');
-
-  // функция активации элементов формы
-  var behaviorElemForm = function (arr, bool) {
-    for (var y = 0; y < arr.length; y++) {
-      arr[y].disabled = bool;
-    }
-  };
+  var AMOUNT_PINS_IN_MAP = 5;
 
   //  Функция активации карты
   var onActivationMap = function () {
@@ -47,10 +41,9 @@
       item.disabled = false;
     });
     mapFeatures.disabled = false;
-    formSubmit.disabled = false;
-    descriptionForm.disabled = false;
-    behaviorElemForm(inputsForm, false);
-    behaviorElemForm(selectsForm, false);
+    formElements.forEach(function (item) {
+      item.disabled = false;
+    });
   };
 
   var onError = function (message) {
@@ -93,12 +86,7 @@
   //  Функция обработки данных с сервера
   var onSuccess = function (data) {
     var adverts = data;
-
-    appearancePin(data, amountPinsInMap);
-
-    window.filters.filterForm.addEventListener('change', function () {
-      window.filters.onfilterFormChange(adverts);
-    });
+    var form = window.utils.adForm;
 
     // Функция сброса страницы
     var resetPage = function () {
@@ -106,8 +94,8 @@
       var mapCards = document.querySelectorAll('.map__card');
 
       cleaningMap(mapPinsAll, mapCards);
-      window.utils.pinMain.style.top = (PIN_MAIN_Y - pinHeight) + 'px';
-      window.utils.pinMain.style.left = (PIN_MAIN_X - pinWidth / 2) + 'px';
+      window.utils.pinMain.style.top = (PIN_MAIN_Y - PIN_HEIGHT) + 'px';
+      window.utils.pinMain.style.left = (PIN_MAIN_X - PIN_WIDHT / 2) + 'px';
 
       inputsForm.forEach(function (item) {
         if (item.name !== 'address') {
@@ -117,17 +105,17 @@
         }
       });
 
-      selectsFilter.forEach(function (item) {
-        item.disabled = true;
-      });
-
       mapFeatures.disabled = true;
       formSubmit.disabled = true;
-      descriptionForm.disabled = true;
       descriptionForm.value = '';
 
       selectsFilter.forEach(function (item) {
         item.value = 'any';
+        item.disabled = true;
+      });
+
+      formElements.forEach(function (item) {
+        item.disabled = true;
       });
 
       inputsCheck.forEach(function (item) {
@@ -151,11 +139,13 @@
       window.utils.map.classList.add('map--faded');
       window.utils.adForm.classList.add('ad-form--disabled');
       window.map.filters.classList.remove('ad-form--disabled');
-      behaviorElemForm(window.map.inputsForm, true);
-      behaviorElemForm(window.map.selectsForm, true);
     };
 
-    var form = window.utils.adForm;
+    appearancePin(data, AMOUNT_PINS_IN_MAP);
+
+    window.filters.filterForm.addEventListener('change', function () {
+      window.filters.onfilterFormChange(adverts);
+    });
 
     form.addEventListener('reset', function (evt) {
       resetPage();
@@ -174,10 +164,10 @@
   // Функция приема данных с сервера страницы
   var onData = function () {
     window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
-    pinMain.removeEventListener('mouseup', onData);
     var pins = window.map.mapPins.querySelectorAll('.map__pin');
     var cards = window.utils.map.querySelectorAll('.map__card');
 
+    pinMain.removeEventListener('mouseup', onData);
     window.modal.openAdvert(pins, '.map__card');
     window.modal.closeAdvert(cards);
   };
@@ -196,9 +186,6 @@
     window.form.selectionPrise();
   });
 
-  behaviorElemForm(inputsForm, true);
-  behaviorElemForm(selectsForm, true);
-
   pinMain.addEventListener('mousedown', function (evt) {
     window.moainPin.onMouseDownPin(evt);
   });
@@ -210,7 +197,7 @@
     onActivationMap: onActivationMap,
     cleaningMap: cleaningMap,
     appearancePin: appearancePin,
-    amountPinsInMap: amountPinsInMap,
+    amountPinsInMap: AMOUNT_PINS_IN_MAP,
     inputsForm: inputsForm,
     filters: filters,
     selectsForm: selectsForm,

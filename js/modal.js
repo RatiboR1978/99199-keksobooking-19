@@ -128,6 +128,7 @@
         });
       }
     });
+
     collAdvert.forEach(function (item, i) {
       var closeBtn = item.querySelector('.popup__close');
 
