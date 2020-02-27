@@ -6,7 +6,7 @@
 
 (function () {
   // Функция создания метки
-  var pin = function (adverts) {
+  var generatePin = function (adverts) {
     var similarAdvertLabelTemplate = document.querySelector('#pin')
       .content
       .querySelector('.map__pin');
@@ -19,5 +19,5 @@
   };
 
   // Экспорт
-  window.pin = pin;
+  window.generatePin = generatePin;
 })();

@@ -56,7 +56,7 @@
     var fragmentLabelAdverts = document.createDocumentFragment();
 
     for (var i = 0; i < amount; i++) {
-      fragmentLabelAdverts.appendChild(window.pin(data[i]));
+      fragmentLabelAdverts.appendChild(window.generatePin(data[i]));
       fragmentAdverts.appendChild(window.modal.renderAdvert(data[i]));
     }
     mapPins.appendChild(fragmentLabelAdverts);
