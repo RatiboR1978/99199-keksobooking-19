@@ -60,7 +60,6 @@
   };
 
   setStateRoomsInitial();
-
   roomNumber.addEventListener('change', onSelectRooms);
 
   // Экспорт
