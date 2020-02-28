@@ -53,7 +53,7 @@
     });
   };
 
-  var onChangefilterForm = function (data) {
+  var onChangeFilterForm = function (data) {
     var filteredData = data.slice();
 
     // Фильтрация типа жилья
@@ -91,6 +91,6 @@
   // Экспорт
   window.filters = {
     filterForm: filterForm,
-    onChangefilterForm: onChangefilterForm
+    onChangeFilterForm: onChangeFilterForm
   };
 })();

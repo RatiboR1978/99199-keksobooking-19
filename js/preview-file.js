@@ -35,10 +35,8 @@
 
   //  Функция установки исходного состояния для картинок жилья
   var settingInitialStateImages = function (collection) {
-    collection.forEach(function (item, i) {
-      if (i === 0) {
-        item.children[0].remove();
-      } else {
+    collection.forEach(function (item) {
+      if (item.firstChild) {
         item.remove();
       }
     });

@@ -215,7 +215,7 @@
     appearancePin(data, AMOUNT_PINS_IN_MAP);
 
     window.filters.filterForm.addEventListener('change', function () {
-      window.filters.onChangefilterForm(adverts);
+      window.filters.onChangeFilterForm(adverts);
     });
 
     form.addEventListener('reset', function (evt) {
