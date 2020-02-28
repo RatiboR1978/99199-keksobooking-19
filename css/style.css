@@ -1249,3 +1249,9 @@ fieldset {
   outline: none;
   opacity: 0.6;
 }
+
+.ad-form__img {
+  height: 70px;
+  width: 100%;
+  border-radius: 5px;
+}

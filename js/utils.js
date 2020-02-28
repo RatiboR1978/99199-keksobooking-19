@@ -24,10 +24,19 @@
     }
   };
 
+  // Функция закрытия успешной отпарвки
+  var onModalSuccessClose = function (str) {
+    var elem = document.querySelector(str);
+    if (elem) {
+      elem.remove();
+    }
+  };
+
   // Экспорт
   window.utils = {
     addClass: addClass,
     removeClass: removeClass,
+    onModalSuccessClose: onModalSuccessClose,
     adForm: adForm,
     pinMain: pinMain,
     inputAddress: inputAddress,
