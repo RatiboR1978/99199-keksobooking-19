@@ -6,7 +6,6 @@
 
 (function () {
   var MAP_WIDTH = document.querySelector('.map__pins').offsetWidth;
-<<<<<<< HEAD
   var PinData = {
     WIDTH: 62,
     HEIGHT: 62,
@@ -16,15 +15,6 @@
   var MAX_WIDTH_MAP = MAP_WIDTH - PinData.WIDTH / 2;
   var MAP_HEIGHT_MIN = 130 - PinData.HEIGHT - PinData.HEIGHT_OFFSET;
   var MAP_HEIGHT_MAX = 630 - PinData.HEIGHT - PinData.HEIGHT_OFFSET;
-=======
-  var PIN_WIDTH = 62;
-  var PIN_HEIGHT = 62;
-  var PIN_HEIGHT_OFFSET = 22;
-  var MIN_WIDTH_MAP = -PIN_WIDTH / 2;
-  var MAX_WIDTH_MAP = MAP_WIDTH - PIN_WIDTH / 2;
-  var MAP_HEIGHT_MIN = 130 - PIN_HEIGHT - PIN_HEIGHT_OFFSET;
-  var MAP_HEIGHT_MAX = 630 - PIN_HEIGHT - PIN_HEIGHT_OFFSET;
->>>>>>> d52ac81a2d0c5f5b03a97babe85eec3433c1259f
   var pinMain = window.utils.pinMain;
 
   var onMouseDownPin = function (evt) {

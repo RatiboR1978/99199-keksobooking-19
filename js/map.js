@@ -28,7 +28,6 @@
   var selectsForm = adForm.querySelectorAll('select');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
-<<<<<<< HEAD
   var descriptionForm = adForm.querySelector('#description');
   var typeBuilding = adForm.querySelector('#type');
   var pinMain = window.utils.pinMain;
@@ -37,11 +36,6 @@
   var adFormAvatar = adForm.querySelector('#avatar');
   var adFormPhotos = adForm.querySelectorAll('.ad-form__photo');
   var adFormHeaderPreviewImage = adForm.querySelector('.ad-form-header__preview img');
-=======
-  var descriptionForm = adForm.querySelectorAll('#description');
-  var typeBuilding = adForm.querySelector('#type');
-  var pinMain = window.utils.pinMain;
->>>>>>> d52ac81a2d0c5f5b03a97babe85eec3433c1259f
 
   //  Функция активации карты
   var onActivationMap = function () {
@@ -95,7 +89,6 @@
     }
   };
 
-<<<<<<< HEAD
   // Функция действия после удачной отправки формы
   var onModalSuccess = function () {
     var main = document.querySelector('main');
@@ -157,8 +150,6 @@
     });
   };
 
-=======
->>>>>>> d52ac81a2d0c5f5b03a97babe85eec3433c1259f
   //  Функция обработки данных с сервера
   var onSuccess = function (data) {
     var adverts = data;
@@ -224,11 +215,7 @@
     appearancePin(data, AMOUNT_PINS_IN_MAP);
 
     window.filters.filterForm.addEventListener('change', function () {
-<<<<<<< HEAD
       window.filters.onChangeFilterForm(adverts);
-=======
-      window.filters.onfilterFormChange(adverts);
->>>>>>> d52ac81a2d0c5f5b03a97babe85eec3433c1259f
     });
 
     form.addEventListener('reset', function (evt) {
@@ -250,11 +237,7 @@
 
   // Функция приема данных с сервера страницы
   var onData = function () {
-<<<<<<< HEAD
     window.xhr.load(onSuccess, onError);
-=======
-    window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
->>>>>>> d52ac81a2d0c5f5b03a97babe85eec3433c1259f
     var pins = window.map.mapPins.querySelectorAll('.map__pin');
     var cards = window.utils.map.querySelectorAll('.map__card');
 
