@@ -5,7 +5,7 @@
 */
 
 (function () {
-  var PIN_WIDHT = 62;
+  var PIN_WIDTH = 62;
   var PIN_HEIGHT = 84;
   var AMOUNT_PINS_IN_MAP = 5;
   var INITIAL_VALUE_FORM = {
@@ -13,7 +13,7 @@
     time: '12:00',
     amount: 1
   };
-  var PIN_MAIN_X = parseInt(window.utils.pinMain.style.left, 10) + PIN_WIDHT / 2;
+  var PIN_MAIN_X = parseInt(window.utils.pinMain.style.left, 10) + PIN_WIDTH / 2;
   var PIN_MAIN_Y = parseInt(window.utils.pinMain.style.top, 10) + PIN_HEIGHT;
   var mapPins = window.utils.map.querySelector('.map__pins');
   var filtersContainer = window.utils.map.querySelector('.map__filters-container');
@@ -163,7 +163,7 @@
 
       cleaningMap(mapPinsAll, mapCards);
       window.utils.pinMain.style.top = (PIN_MAIN_Y - PIN_HEIGHT) + 'px';
-      window.utils.pinMain.style.left = (PIN_MAIN_X - PIN_WIDHT / 2) + 'px';
+      window.utils.pinMain.style.left = (PIN_MAIN_X - PIN_WIDTH / 2) + 'px';
 
       inputsForm.forEach(function (item) {
         if (item.name !== 'address') {
